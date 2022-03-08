@@ -11,7 +11,8 @@ export default function HeaderComponent() {
                         <li className="nav-item"><Link to="/students" className='nav-link'>Students</Link></li>
                         <li className="nav-item"><Link to="/standards" className='nav-link'>Standards</Link></li>
                         <li className="nav-item"><Link to="/teachers" className='nav-link'>Teachers</Link></li>
-                        <li className="nav-item">Subjects</li>
+                        <li className="nav-item"><Link to="/subjects" className='nav-link'>Subjects</Link></li>
+                        
                         
                         
                     </ul>
