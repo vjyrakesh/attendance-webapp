@@ -9,9 +9,10 @@ export default function HeaderComponent() {
                     <div><a className="navbar-brand" href="/">Attendance</a></div>
                     <ul className="navbar-nav">
                         <li className="nav-item"><Link to="/students" className='nav-link'>Students</Link></li>
+                        <li className="nav-item"><Link to="/standards" className='nav-link'>Standards</Link></li>
                         <li className="nav-item">Subjects</li>
                         <li className="nav-item">Teachers</li>
-                        <li className="nav-item">Standards</li>
+                        
                     </ul>
                 </div>
             </nav>
