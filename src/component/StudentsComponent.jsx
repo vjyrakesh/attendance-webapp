@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import StudentService from "../api/StudentService";
+import {Link} from 'react-router-dom'
 
 export default function StudentsComponent() {
 
@@ -35,6 +36,7 @@ export default function StudentsComponent() {
                                 <td>{student.lastName}</td>
                                 <td>{student.username}</td>
                                 <td>{student.standard}</td>
+                                <td><Link to={`/students/${student.id}/edit`}>Edit</Link></td>
                             </tr>
                         )
                     }
