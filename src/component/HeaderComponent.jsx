@@ -1,4 +1,3 @@
-
 import {Link} from 'react-router-dom'
 
 export default function HeaderComponent() {
@@ -12,7 +11,7 @@ export default function HeaderComponent() {
                         <li className="nav-item"><Link to="/standards" className='nav-link'>Standards</Link></li>
                         <li className="nav-item"><Link to="/teachers" className='nav-link'>Teachers</Link></li>
                         <li className="nav-item"><Link to="/subjects" className='nav-link'>Subjects</Link></li>
-                        
+                        <li className="nav-item"><Link to="/register" className='nav-link'>Register</Link></li>
                         
                         
                     </ul>

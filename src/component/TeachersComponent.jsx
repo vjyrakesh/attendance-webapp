@@ -29,7 +29,7 @@ export default function TeachersComponent() {
                 <tbody>
                     {
                         teachers.map(teacher => 
-                            <tr>
+                            <tr key={teacher.id}>
                                 <td>{teacher.id}</td>
                                 {teacher.firstName?<td>{teacher.firstName}</td>:<td>NA</td>}
                                 {teacher.lastName?<td>{teacher.lastName}</td>:<td>NA</td>}
