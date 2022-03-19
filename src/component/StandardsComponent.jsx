@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useState } from "react";
 import StandardService from "../api/StandardService";
+import {Link} from 'react-router-dom'
 
 export default function StandardsComponent() {
     const [standards, setStandards] = useState([])
@@ -37,6 +38,7 @@ export default function StandardsComponent() {
                     }
                 </tbody>
             </table>
+            <Link to="/standards/new">Add Standard</Link>
         </div>
     )
 }

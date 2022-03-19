@@ -6,6 +6,7 @@ import TeachersComponent from "./TeachersComponent";
 import SubjectsComponent from "./SubjectsComponent";
 import EditStudentComponent from "./EditStudentComponent";
 import RegisterPersonComponent from "./RegisterPersonComponent";
+import CreateStandardComponent from "./CreateStandardComponent";
 
 
 export default function AttendanceApp() {
@@ -18,11 +19,13 @@ export default function AttendanceApp() {
                 <HeaderComponent/>
                     <Switch>
                         <Route path="/students/:id/edit" component={EditStudentComponent}/>
+                        <Route path="/standards/new" component={CreateStandardComponent}/>
                         <Route path="/students" component={StudentsComponent}/>
                         <Route path="/standards" component={StandardsComponent}/>
                         <Route path="/teachers" component={TeachersComponent}/>
                         <Route path="/subjects" component={SubjectsComponent}/>
                         <Route path="/register" component={RegisterPersonComponent}/>
+                        
                     </Switch>
                 </>
             </Router>
