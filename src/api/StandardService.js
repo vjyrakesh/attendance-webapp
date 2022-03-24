@@ -12,6 +12,10 @@ class StandardService {
     addClassTeacherToStandard(stdId, teacherId) {
         return axios.put(`http://localhost:8080/standards/${stdId}/classteacher`, {'id':teacherId})
     }
+
+    getOneStandard(id) {
+        return axios.get(`http://localhost:8080/standards/${id}`)
+    }
 }
 
 export default new StandardService()

@@ -33,6 +33,7 @@ export default function StandardsComponent() {
                                 <td>{standard.name}</td>
                                 <td>{standard.classTeacher.firstName + ' ' + standard.classTeacher.lastName}</td>
                                 <td>{standard.strength}</td>
+                                <td><Link to={`/standards/${standard.id}/edit`}>Edit</Link></td>
                             </tr>    
                         )
                     }
