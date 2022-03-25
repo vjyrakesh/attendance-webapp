@@ -1,5 +1,6 @@
 import SubjectService from "../api/SubjectService";
 import { useState, useEffect } from "react";
+import {Link} from 'react-router-dom'
 
 export default function SubjectsComponent() {
 
@@ -27,7 +28,7 @@ export default function SubjectsComponent() {
                 <tbody>
                     {
                         subjects.map(subject =>
-                            <tr>
+                            <tr key={subject.id}>
                                 <td>{subject.id}</td>
                                 <td>{subject.name}</td>
                                 {subject.teacher?<td>{subject.teacher.firstName + ' ' + subject.teacher.lastName}</td>:<td>NA</td>}
@@ -37,6 +38,7 @@ export default function SubjectsComponent() {
                     }
                 </tbody>
             </table>
+            <Link to="/subjects/new">Add Subject</Link>
         </div>
     )
 }
