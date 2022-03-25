@@ -9,6 +9,7 @@ import RegisterPersonComponent from "./RegisterPersonComponent";
 import CreateStandardComponent from "./CreateStandardComponent";
 import EditStandardComponent from "./EditStandardComponent";
 import AddSubjectComponent from "./AddSubjectComponent";
+import EditSubjectComponent from "./EditSubjectComponent";
 
 
 export default function AttendanceApp() {
@@ -26,6 +27,7 @@ export default function AttendanceApp() {
                         <Route path="/students" component={StudentsComponent}/>
                         <Route path="/standards" component={StandardsComponent}/>
                         <Route path="/teachers" component={TeachersComponent}/>
+                        <Route path="/subjects/:id/edit" component={EditSubjectComponent}/>
                         <Route path="/subjects/new" component={AddSubjectComponent}/>
                         <Route path="/subjects" component={SubjectsComponent}/>
                         <Route path="/register" component={RegisterPersonComponent}/>

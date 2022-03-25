@@ -12,6 +12,10 @@ class SubjectService {
     addSubjectToStandard(subId, stdId) {
         return axios.put(`http://localhost:8080/subjects/${subId}/standard`, {'id':stdId})
     }
+
+    getOneSubject(id) {
+        return axios.get(`http://localhost:8080/subjects/${id}`)
+    }
 }
 
 export default new SubjectService()

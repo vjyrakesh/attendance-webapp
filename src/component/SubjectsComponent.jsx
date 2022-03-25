@@ -9,6 +9,7 @@ export default function SubjectsComponent() {
     useEffect(() => {
         SubjectService.getAllSubjects()
         .then(response => {
+            console.log(response.data)
             setSubjects(response.data)
         })
     },[])
@@ -33,6 +34,7 @@ export default function SubjectsComponent() {
                                 <td>{subject.name}</td>
                                 {subject.teacher?<td>{subject.teacher.firstName + ' ' + subject.teacher.lastName}</td>:<td>NA</td>}
                                 {subject.standard?<td>{subject.standard.name}</td>:<td>NA</td>}
+                                <td><Link to={`/subjects/${subject.id}/edit`}>Edit</Link></td>
                             </tr>    
                         )
                     }
