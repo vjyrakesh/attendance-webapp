@@ -12,6 +12,7 @@ import AddSubjectComponent from "./AddSubjectComponent";
 import EditSubjectComponent from "./EditSubjectComponent";
 import StandardDetailsComponent from "./StandardDetailsComponent";
 import TeacherDetailsComponent from "./TeacherDetailsComponent";
+import SubjectDetailsComponent from "./SubjectDetailsComponent";
 
 
 export default function AttendanceApp() {
@@ -32,6 +33,7 @@ export default function AttendanceApp() {
                         <Route path="/teachers/:id" component={TeacherDetailsComponent}/>
                         <Route path="/teachers" component={TeachersComponent}/>
                         <Route path="/subjects/:id/edit" component={EditSubjectComponent}/>
+                        <Route path="/subjects/:id" component={SubjectDetailsComponent}/>
                         <Route path="/subjects/new" component={AddSubjectComponent}/>
                         <Route path="/subjects" component={SubjectsComponent}/>
                         <Route path="/register" component={RegisterPersonComponent}/>
