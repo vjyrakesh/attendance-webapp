@@ -10,6 +10,7 @@ import CreateStandardComponent from "./CreateStandardComponent";
 import EditStandardComponent from "./EditStandardComponent";
 import AddSubjectComponent from "./AddSubjectComponent";
 import EditSubjectComponent from "./EditSubjectComponent";
+import StandardDetailsComponent from "./StandardDetailsComponent";
 
 
 export default function AttendanceApp() {
@@ -23,6 +24,7 @@ export default function AttendanceApp() {
                     <Switch>
                         <Route path="/students/:id/edit" component={EditStudentComponent}/>
                         <Route path="/standards/:id/edit" component={EditStandardComponent}/>
+                        <Route path="/standards/:id" component={StandardDetailsComponent}/>
                         <Route path="/standards/new" component={CreateStandardComponent}/>
                         <Route path="/students" component={StudentsComponent}/>
                         <Route path="/standards" component={StandardsComponent}/>

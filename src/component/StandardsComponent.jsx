@@ -28,11 +28,12 @@ export default function StandardsComponent() {
                 <tbody>
                     {
                         standards.map(standard => 
-                            <tr>
+                            <tr key={standard.id}>
                                 <td>{standard.id}</td>
                                 <td>{standard.name}</td>
                                 <td>{standard.classTeacher.firstName + ' ' + standard.classTeacher.lastName}</td>
                                 <td>{standard.strength}</td>
+                                <td><Link to={`/standards/${standard.id}`}>View</Link></td>
                                 <td><Link to={`/standards/${standard.id}/edit`}>Edit</Link></td>
                             </tr>    
                         )

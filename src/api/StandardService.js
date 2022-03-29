@@ -16,6 +16,10 @@ class StandardService {
     getOneStandard(id) {
         return axios.get(`http://localhost:8080/standards/${id}`)
     }
+
+    getStudentsOfStandard(id) {
+        return axios.get(`http://localhost:8080/standards/${id}/students`)
+    }
 }
 
 export default new StandardService()
