@@ -1,5 +1,6 @@
 import TeacherService from "../api/TeacherService"
 import { useState, useEffect } from "react"
+import { Link } from "react-router-dom"
 
 
 export default function TeachersComponent() {
@@ -35,6 +36,7 @@ export default function TeachersComponent() {
                                 {teacher.lastName?<td>{teacher.lastName}</td>:<td>NA</td>}
                                 {teacher.username?<td>{teacher.username}</td>:<td>NA</td>}
                                 {teacher.classTeacherFor?<td>{teacher.classTeacherFor}</td>:<td>NA</td>}
+                                <td><Link to={`/teachers/${teacher.id}`}>View</Link></td>
                             </tr>    
                         )
                     }
