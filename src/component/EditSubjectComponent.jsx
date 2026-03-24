@@ -3,7 +3,7 @@ import {Formik, Form, Field} from 'formik'
 import { useEffect, useState } from "react";
 import TeacherService from "../api/TeacherService";
 import SubjectService from "../api/SubjectService";
-import { useParams } from "react-router-dom/cjs/react-router-dom.min";
+import { useParams } from "react-router";
 
 
 export default function EditSubjectComponent(props) {

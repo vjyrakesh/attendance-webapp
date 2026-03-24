@@ -1,5 +1,5 @@
 import TeacherService from "../api/TeacherService";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 import { useState, useEffect } from "react";
 
 export default function TeacherDetailsComponent() {
