@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useState } from "react";
 import StandardService from "../api/StandardService";
-import {Link} from 'react-router-dom'
+import {Link} from 'react-router'
 
 export default function StandardsComponent() {
     const [standards, setStandards] = useState([])

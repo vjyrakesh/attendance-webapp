@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import StudentService from "../api/StudentService";
-import {Link} from 'react-router-dom'
+import {Link} from 'react-router'
 
 export default function StudentsComponent() {
 

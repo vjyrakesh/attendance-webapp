@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import { useParams, Link } from "react-router-dom"
+import { useParams, Link } from "react-router"
 import SubjectService from "../api/SubjectService"
 
 export default function SubjectDetailsComponent() {

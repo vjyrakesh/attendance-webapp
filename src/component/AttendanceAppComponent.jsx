@@ -1,4 +1,4 @@
-import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
+import { Route, BrowserRouter, Routes} from "react-router";
 import HeaderComponent from "./HeaderComponent";
 import StudentsComponent from "./StudentsComponent";
 import StandardsComponent from "./StandardsComponent";
@@ -20,27 +20,27 @@ export default function AttendanceApp() {
     return (
         <div>
             
-            <Router>
+            <BrowserRouter>
                 <>
                 <HeaderComponent/>
-                    <Switch>
-                        <Route path="/students/:id/edit" component={EditStudentComponent}/>
-                        <Route path="/standards/:id/edit" component={EditStandardComponent}/>
-                        <Route path="/standards/:id" component={StandardDetailsComponent}/>
-                        <Route path="/standards/new" component={CreateStandardComponent}/>
-                        <Route path="/students" component={StudentsComponent}/>
-                        <Route path="/standards" component={StandardsComponent}/>
-                        <Route path="/teachers/:id" component={TeacherDetailsComponent}/>
-                        <Route path="/teachers" component={TeachersComponent}/>
-                        <Route path="/subjects/:id/edit" component={EditSubjectComponent}/>
-                        <Route path="/subjects/:id" component={SubjectDetailsComponent}/>
-                        <Route path="/subjects/new" component={AddSubjectComponent}/>
-                        <Route path="/subjects" component={SubjectsComponent}/>
-                        <Route path="/register" component={RegisterPersonComponent}/>
+                    <Routes>
+                        <Route path="/students/:id/edit" element={<EditStudentComponent/>}/>
+                        <Route path="/standards/:id/edit" element={<EditStandardComponent/>}/>
+                        <Route path="/standards/:id" element={<StandardDetailsComponent/>}/>
+                        <Route path="/standards/new" element={<CreateStandardComponent/>}/>
+                        <Route path="/students" element={<StudentsComponent/>}/>
+                        <Route path="/standards" element={<StandardsComponent/>}/>
+                        <Route path="/teachers/:id" element={<TeacherDetailsComponent/>}/>
+                        <Route path="/teachers" element={<TeachersComponent/>}/>
+                        <Route path="/subjects/:id/edit" element={<EditSubjectComponent/>}/>
+                        <Route path="/subjects/:id" element={<SubjectDetailsComponent/>}/>
+                        <Route path="/subjects/new" element={<AddSubjectComponent/>}/>
+                        <Route path="/subjects" element={<SubjectsComponent/>}/>
+                        <Route path="/register" element={<RegisterPersonComponent/>}/>
                         
-                    </Switch>
+                    </Routes>
                 </>
-            </Router>
+            </BrowserRouter>
         </div>
     )
 }
