@@ -11,8 +11,11 @@ export default function CreateStandardComponent(props) {
     useEffect(() => {
         TeacherService.getAllTeachers()
         .then(response => {
-            setTeachers(response.data)
+            setTeachers(response.data);
         })
+        .catch(error => {
+            console.error("Error whlile fetching Teachers: " + error.message);
+        });
     }, [])
 
     function handleOnSubmit(values) {

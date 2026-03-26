@@ -9,9 +9,11 @@ export default function StudentsComponent() {
     useEffect(() => {
         StudentService.getAllStudents()
         .then(response => {
-            console.log(response)
-            setStudents(response.data)
+            setStudents(response.data);
         })
+        .catch(error => {
+            console.error("Error whlile fetching Students: " + error.message);
+        });
     }, [])
 
     return (

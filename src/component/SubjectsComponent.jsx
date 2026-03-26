@@ -9,9 +9,11 @@ export default function SubjectsComponent() {
     useEffect(() => {
         SubjectService.getAllSubjects()
         .then(response => {
-            console.log(response.data)
             setSubjects(response.data)
         })
+        .catch(error => {
+            console.error("Error whlile fetching Subjects: " + error.message);
+        });
     },[])
 
     return (

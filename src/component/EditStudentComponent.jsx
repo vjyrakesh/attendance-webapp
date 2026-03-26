@@ -11,17 +11,20 @@ export default function EditStudentComponent(props) {
     const [standards, setStandards] = useState([])
     
     useEffect(() => {
-        console.log("inside fetch student hook")
         StandardService.getAllStandards()
         .then(response => {
             setStandards(response.data)
         })
+        .catch(error => {
+            console.error("Error whlile fetching Standards: " + error.message);
+        });
         StudentService.getOneStudent(params.id)
         .then(response => {
-            console.log(response.data)
             setStudent(response.data)
-            
         })
+        .catch(error => {
+            console.error("Error whlile fetching Student: " + error.message);
+        });
         
     },[params.id])
 

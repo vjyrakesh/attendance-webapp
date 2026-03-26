@@ -15,6 +15,9 @@ export default function EditStandardComponent(props) {
         .then(response => {
             setTeachers(response.data)
         })
+        .catch(error => {
+            console.error("Error whlile fetching Teachers: " + error.message);
+        });
 
         StandardService.getOneStandard(params.id)
         .then(response => {
@@ -23,9 +26,11 @@ export default function EditStandardComponent(props) {
                 ...standard,
                 'name':response.data.name,
                 'classTeacher':response.data.classTeacher.id
-            }
-            )
+            });
         })
+        .catch(error => {
+            console.error("Error whlile fetching one Standard: " + error.message);
+        });
     }, [params.id])
 
     function handleOnSubmit(values) {

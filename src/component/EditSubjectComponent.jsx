@@ -18,11 +18,17 @@ export default function EditSubjectComponent(props) {
         .then(response => {
             setTeachers(response.data)
         })
+        .catch(error => {
+            console.error("Error whlile fetching Teachers: " + error.message);
+        });
 
         StandardService.getAllStandards()
         .then(response => {
             setStandards(response.data)
         })
+        .catch(error => {
+            console.error("Error whlile fetching Standards: " + error.message);
+        });
 
         SubjectService.getOneSubject(params.id)
         .then(response => {
@@ -33,6 +39,9 @@ export default function EditSubjectComponent(props) {
                 'standard': response.data.standard.id
             })
         })
+        .catch(error => {
+            console.error("Error whlile fetching one Subject: " + error.message);
+        });
 
     },[params.id])
 
