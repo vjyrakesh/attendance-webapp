@@ -7,11 +7,13 @@ export default function RegisterPersonComponent(props) {
     const [person, setPerson] = useState({'firstName':'', 'lastName':'', 'username':'', 'password':'','personType':''})
 
     function handleOnSubmit(values) {
-        console.log(values)
         PersonService.registerPerson(values)
         .then(response => {
             props.history.push("/students")
         })
+        .catch(error => {
+            console.error("Error whlile registering Person: " + error.message);
+        });
     }
 
     return (

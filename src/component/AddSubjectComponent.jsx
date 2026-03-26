@@ -15,11 +15,17 @@ export default function AddSubjectComponent(props) {
         .then(response => {
             setTeachers(response.data)
         })
+        .catch(error => {
+            console.error("Error whlile fetching Teachers: " + error.message);
+        });
 
         StandardService.getAllStandards()
         .then(response => {
             setStandards(response.data)
         })
+        .catch(error => {
+            console.error("Error while fetching Standards: " + error.message);
+        });
 
     }, [])
 

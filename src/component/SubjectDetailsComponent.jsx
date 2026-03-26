@@ -12,6 +12,9 @@ export default function SubjectDetailsComponent() {
         .then(response => {
             setSubject(response.data)
         })
+        .catch(error => {
+            console.error("Error whlile fetching Subject: " + error.message);
+        });
     }, [params.id])
 
     return (

@@ -11,17 +11,22 @@ export default function StandardDetailsComponent(props) {
     useEffect(() => {
         StandardService.getOneStandard(params.id)
         .then(response => {
-            console.log(response)
             setStandard({
                 ...standard,
                 ...response.data
             })
         })
+        .catch(error => {
+            console.error("Error whlile fetching one Standard: " + error.message);
+        });
 
         StandardService.getStudentsOfStandard(params.id)
         .then(response => {
             setStudents(response.data)
         })
+        .catch(error => {
+            console.error("Error whlile fetching Students: " + error.message);
+        });
     }, [params.id])
     
     return (

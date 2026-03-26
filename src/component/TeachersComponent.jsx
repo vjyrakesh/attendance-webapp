@@ -12,6 +12,9 @@ export default function TeachersComponent() {
         .then(response => {
             setTeachers(response.data)
         })
+        .catch(error => {
+            console.error("Error whlile fetching Teachers: " + error.message);
+        });
     },[])
 
     return (

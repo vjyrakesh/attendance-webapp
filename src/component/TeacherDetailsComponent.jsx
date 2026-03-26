@@ -13,11 +13,17 @@ export default function TeacherDetailsComponent() {
         .then(response => {
             setTeacher(response.data)
         })
+        .catch(error => {
+            console.error("Error whlile fetching one Teacher: " + error.message);
+        });
 
         TeacherService.getSubjectsOfTeacher(params.id)
         .then(response => {
             setSubjects(response.data)
         })
+        .catch(error => {
+            console.error("Error whlile fetching Subjects for one teacher: " + error.message);
+        });
     }, [params.id])
     
     return (

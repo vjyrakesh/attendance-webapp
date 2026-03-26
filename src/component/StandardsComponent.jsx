@@ -9,8 +9,11 @@ export default function StandardsComponent() {
     useEffect(()=> {
         StandardService.getAllStandards()
         .then(response => {
-            setStandards(response.data)
+            setStandards(response.data);
         })
+        .catch(error => {
+            console.error("Error while fetching Standards: " + error.message);
+        });
     },[])
 
     return (
