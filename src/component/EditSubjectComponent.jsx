@@ -13,40 +13,52 @@ export default function EditSubjectComponent(props) {
     const [subject, setSubject ] = useState({name:'', teacher:0, standard: 0})
     const params = useParams()
 
-    useEffect(() => {
-        TeacherService.getAllTeachers()
-        .then(response => {
-            setTeachers(response.data)
-        })
-        .catch(error => {
-            console.error("Error whlile fetching Teachers: " + error.message);
-        });
+    const fetchTeachers = async () => {
+        try {
+            const teachersObj = await TeacherService.getAllTeachers();
+            setTeachers(teachersObj);
+        } catch(error) {
+            console.error("Error while fetching Teachers: " + error.message);
+        }
+    };
 
-        StandardService.getAllStandards()
-        .then(response => {
-            setStandards(response.data)
-        })
-        .catch(error => {
+    const fetchStandards = async () => {
+        try {
+            const response = await StandardService.getAllStandards();    
+            if(response && response.data) {
+                setStandards(response.data);
+            }
+        } catch(error) {
             console.error("Error whlile fetching Standards: " + error.message);
-        });
+        }
+    };
 
-        SubjectService.getOneSubject(params.id)
-        .then(response => {
-            setSubject({
-                ...subject,
-                'name': response.data.name,
-                'teacher': response.data.teacher.id,
-                'standard': response.data.standard.id
-            })
-        })
-        .catch(error => {
+    const fetchOneSubject = useEffect(async (id) => {
+        try {
+            const response = await SubjectService.getOneSubject(id);
+            if(response && response.data) {
+                setSubject({
+                    ...subject,
+                    'name': response.data.name,
+                    'teacher': response.data.teacher.id,
+                    'standard': response.data.standard.id
+                });
+            }
+        } catch(error) {
             console.error("Error whlile fetching one Subject: " + error.message);
-        });
+        }
+    }, []);
 
+    useEffect(() => {
+        fetchTeachers();
+        fetchStandards();
+    }, []);
+
+    useEffect(() => {
+        fetchOneSubject(params.id);
     },[params.id])
 
     function handleOnSubmit(values) {
-        console.log(values)
         if(values.teacher !== subject.teacher) {
             TeacherService.addSubjectToTeacher(values.teacher, values.name)
             .then(response => {
@@ -58,7 +70,6 @@ export default function EditSubjectComponent(props) {
         if(values.standard !== subject.standard) {
             SubjectService.addSubjectToStandard(params.id, values.standard)
             .then(response => {
-                console.log('subject added to standard')
                 props.history.push("/subjects")
             })
             

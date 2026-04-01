@@ -8,22 +8,32 @@ export default function TeacherDetailsComponent() {
     const [subjects, setSubjects] = useState([])
     const params = useParams()
 
-    useEffect(() => {
-        TeacherService.getOneTeacher(params.id)
-        .then(response => {
-            setTeacher(response.data)
-        })
-        .catch(error => {
-            console.error("Error whlile fetching one Teacher: " + error.message);
-        });
+    const fetchOneTeacher = async (id) => {
+        try {
+            const response = await TeacherService.getOneTeacher(id);
+            if(response && response.data) {
+                setTeacher(response.data);
+            }
+        } catch(error) {
+            console.error("Error while fetching teacher: " + error.message);
+        }
+    };
 
-        TeacherService.getSubjectsOfTeacher(params.id)
-        .then(response => {
-            setSubjects(response.data)
-        })
-        .catch(error => {
-            console.error("Error whlile fetching Subjects for one teacher: " + error.message);
-        });
+    const fetchSubjectsOfTeacher = async (id) => {
+        try {
+            const response = await TeacherService.getSubjectsOfTeacher(id);
+            if(response && response.data) {
+                setSubjects(response.data);
+            }
+        } catch(error) {
+            console.error("Error while fetching subjects of teacher: " + error.message);
+        }
+    };
+
+    useEffect(() => {
+        fetchOneTeacher(params.id);
+
+        fetchSubjectsOfTeacher(params.id);
     }, [params.id])
     
     return (

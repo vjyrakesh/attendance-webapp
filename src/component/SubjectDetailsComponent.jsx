@@ -4,18 +4,28 @@ import SubjectService from "../api/SubjectService"
 
 export default function SubjectDetailsComponent() {
 
-    const [subject, setSubject] = useState({id:0, name:'', teacher:{}, standard: {}})
-    const params = useParams()
+    const [subject, setSubject] = useState({id:0, name:'', teacher:{}, standard: {}});
+    const params = useParams();
+
+    const fetchOneSubject = useEffect(async (id) => {
+        try {
+            const response = await SubjectService.getOneSubject(id);
+            if(response && response.data) {
+                setSubject({
+                    ...subject,
+                    'name': response.data.name,
+                    'teacher': response.data.teacher.id,
+                    'standard': response.data.standard.id
+                });
+            }
+        } catch(error) {
+            console.error("Error whlile fetching one Subject: " + error.message);
+        }
+    }, []);
 
     useEffect(() => {
-        SubjectService.getOneSubject(params.id)
-        .then(response => {
-            setSubject(response.data)
-        })
-        .catch(error => {
-            console.error("Error whlile fetching Subject: " + error.message);
-        });
-    }, [params.id])
+        fetchOneSubject(params.id);
+    }, [params.id]);
 
     return (
         <div className="container">

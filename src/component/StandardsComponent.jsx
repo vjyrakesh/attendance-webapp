@@ -6,14 +6,18 @@ import {Link} from 'react-router'
 export default function StandardsComponent() {
     const [standards, setStandards] = useState([])
 
+    const fetchStandards = async () => {
+        try {
+            const response = await StandardService.getAllStandards();    
+            if(response && response.data) {
+                setStandards(response.data);
+            }
+        } catch(error) {
+            console.error("Error whlile fetching Standards: " + error.message);
+        }
+    };
     useEffect(()=> {
-        StandardService.getAllStandards()
-        .then(response => {
-            setStandards(response.data);
-        })
-        .catch(error => {
-            console.error("Error while fetching Standards: " + error.message);
-        });
+        fetchStandards();
     },[])
 
     return (

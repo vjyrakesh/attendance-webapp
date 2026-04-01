@@ -1,21 +1,24 @@
 import TeacherService from "../api/TeacherService"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback } from "react"
 import { Link } from "react-router"
 
 
 export default function TeachersComponent() {
 
-    const [teachers, setTeachers] = useState([])
+    const [teachers, setTeachers] = useState([]);
+
+    const fetchTeachers = useCallback(async () => {
+        try {
+            const teachersObj = await TeacherService.getAllTeachers();
+            setTeachers(teachersObj);
+        } catch(error) {
+            console.error("Error while fetching Teachers: " + error.message);
+        }
+    },[]);
 
     useEffect(() => {
-        TeacherService.getAllTeachers()
-        .then(response => {
-            setTeachers(response.data)
-        })
-        .catch(error => {
-            console.error("Error whlile fetching Teachers: " + error.message);
-        });
-    },[])
+        fetchTeachers();
+    },[]);
 
     return (
         <div className="container">

@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 class TeacherService {
-    getAllTeachers() {
+    async getAllTeachers() {
         return axios.get("http://localhost:8080/teachers")
     }
 

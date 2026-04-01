@@ -1,5 +1,5 @@
 import StandardService from "../api/StandardService"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback } from "react"
 import { useParams } from "react-router"
 
 export default function StandardDetailsComponent(props) {
@@ -8,25 +8,35 @@ export default function StandardDetailsComponent(props) {
     const [students, setStudents] = useState([])
     const params = useParams()
 
-    useEffect(() => {
-        StandardService.getOneStandard(params.id)
-        .then(response => {
-            setStandard({
+    const fetchOneStandard = useCallback(async (id) => {
+        try {
+            const response = await StandardService.getOneStandard(id);
+            if(response && response.data) {
+                setStandard({
                 ...standard,
                 ...response.data
-            })
-        })
-        .catch(error => {
+                });
+            }
+        } catch(error) {
             console.error("Error whlile fetching one Standard: " + error.message);
-        });
+        }
+    }, []);
 
-        StandardService.getStudentsOfStandard(params.id)
-        .then(response => {
-            setStudents(response.data)
-        })
-        .catch(error => {
+    const fetchStudentsOfStandard = useCallback(async (id) => {
+        try {
+            const response = await StandardService.getStudentsOfStandard(id);
+            if(response && response.data) {
+                setStudents(response.data);
+            }
+        } catch(error) {
             console.error("Error whlile fetching Students: " + error.message);
-        });
+        }
+    }, []);
+    
+    useEffect(() => {
+        fetchOneStandard(params.id);
+
+        fetchStudentsOfStandard(params.id);
     }, [params.id])
     
     return (
