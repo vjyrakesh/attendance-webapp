@@ -1,0 +1,1 @@
+export const API_SERVER="https://7324a265-c123-4008-b6fd-4a363b4ba852.mock.pstmn.io";

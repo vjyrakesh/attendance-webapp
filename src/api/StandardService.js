@@ -1,25 +1,26 @@
 import axios from 'axios';
+import { API_SERVER } from './constants';
 
 class StandardService {
     getAllStandards() {
-        return axios.get("http://localhost:8080/standards");
+        return axios.get(`${API_SERVER}/standards`);
         
     }
 
     addStandard(name) {
-        return axios.post("http://localhost:8080/standards", {'name':name});
+        return axios.post(`${API_SERVER}/standards`, {'name':name});
     }
 
     addClassTeacherToStandard(stdId, teacherId) {
-        return axios.put(`http://localhost:8080/standards/${stdId}/classteacher`, {'id':teacherId});
+        return axios.put(`${API_SERVER}/standards/${stdId}/classteacher`, {'id':teacherId});
     }
 
     getOneStandard(id) {
-        return axios.get(`http://localhost:8080/standards/${id}`);
+        return axios.get(`${API_SERVER}/standards/${id}`);
     }
 
     getStudentsOfStandard(id) {
-        return axios.get(`http://localhost:8080/standards/${id}/students`);
+        return axios.get(`${API_SERVER}/standards/${id}/students`);
     }
 }
 
