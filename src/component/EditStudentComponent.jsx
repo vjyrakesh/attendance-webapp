@@ -1,5 +1,5 @@
 import { useParams } from "react-router"
-import {useState, useEffect} from 'react'
+import {useState, useEffect, useCallback} from 'react'
 import StudentService from "../api/StudentService"
 import StandardService from "../api/StandardService"
 import {Formik, Form, Field} from 'formik'
@@ -10,22 +10,30 @@ export default function EditStudentComponent(props) {
     const [student, setStudent] = useState({firstName:'',lastName:'',username:'',standard:''})
     const [standards, setStandards] = useState([])
     
-    useEffect(() => {
-        StandardService.getAllStandards()
-        .then(response => {
-            setStandards(response.data)
-        })
-        .catch(error => {
+    const fetchStandards = useCallback(async () => {
+        try {
+            const response = await StandardService.getAllStandards();    
+            if(response && response.data) {
+                setStandards(response.data);
+            }
+        } catch(error) {
             console.error("Error whlile fetching Standards: " + error.message);
-        });
-        StudentService.getOneStudent(params.id)
-        .then(response => {
-            setStudent(response.data)
-        })
-        .catch(error => {
+        }
+    }, []);
+
+    const fetchOneStudent = useCallback(async (id) => {
+        try {
+            const response = await StudentService.getOneStudent(id);
+            if(response && response.data)
+                setStudent(response.data);
+        } catch(error) {
             console.error("Error whlile fetching Student: " + error.message);
-        });
-        
+        }
+    }, []);
+
+    useEffect(() => {
+        fetchStandards();
+        fetchOneStudent(params.id);
     },[params.id])
 
     

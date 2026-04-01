@@ -1,4 +1,4 @@
-import {useState, useEffect} from 'react'
+import {useState, useEffect, useCallback} from 'react'
 import {useParams} from 'react-router'
 import StandardService from '../api/StandardService'
 import TeacherService from '../api/TeacherService'
@@ -10,31 +10,39 @@ export default function EditStandardComponent(props) {
     const [teachers, setTeachers] = useState([])
     const params = useParams()
 
-    useEffect(() => {
-        TeacherService.getAllTeachers()
-        .then(response => {
-            setTeachers(response.data)
-        })
-        .catch(error => {
-            console.error("Error whlile fetching Teachers: " + error.message);
-        });
+    const fetchTeachers = useCallback(async () => {
+        try {
+            const teachersObj = await TeacherService.getAllTeachers();
+            setTeachers(teachersObj);
+        } catch(error) {
+            console.error("Error while fetching Teachers: " + error.message);
+        }
+    },[]);
 
-        StandardService.getOneStandard(params.id)
-        .then(response => {
-            console.log(response)
-            setStandard({
-                ...standard,
-                'name':response.data.name,
-                'classTeacher':response.data.classTeacher.id
-            });
-        })
-        .catch(error => {
+    const fetchOneStandard = useCallback(async (id) => {
+        try {
+            const response = await StandardService.getOneStandard(id);
+            if(response) {
+                setStandard({
+                    ...standard,
+                    'name':response.data.name,
+                    'classTeacher':response.data.classTeacher.id
+                });
+            }
+        } catch(error) {
             console.error("Error whlile fetching one Standard: " + error.message);
-        });
+        }
+    }, []);
+
+    useEffect(() => {
+        fetchTeachers();
+    }, []);
+
+    useEffect(() => {
+        fetchOneStandard(params.id);
     }, [params.id])
 
     function handleOnSubmit(values) {
-        console.log(values)
         StandardService.addClassTeacherToStandard(params.id, values.classTeacher)
         .then(response => {
             console.log('class teacher added')

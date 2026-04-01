@@ -4,16 +4,21 @@ import {Link} from 'react-router'
 
 export default function StudentsComponent() {
 
-    const [students, setStudents] = useState([])
+    const [students, setStudents] = useState([]);
+
+    const fetchStudents = async () => {
+        try {
+            const response = await StudentService.getAllStudents();
+            if(response && response.data) {
+                setStudents(response.data);
+            }
+        } catch(error) {
+            console.error("Error while fetching students: " + error.message);
+        }
+    };
 
     useEffect(() => {
-        StudentService.getAllStudents()
-        .then(response => {
-            setStudents(response.data);
-        })
-        .catch(error => {
-            console.error("Error whlile fetching Students: " + error.message);
-        });
+        fetchStudents();
     }, [])
 
     return (

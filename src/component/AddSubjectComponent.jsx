@@ -10,27 +10,35 @@ export default function AddSubjectComponent(props) {
     const [standards, setStandards] = useState([])
     const [subject, setSubject ] = useState({name:'', teacher:0, standard: 0})
 
-    useEffect(() => {
-        TeacherService.getAllTeachers()
-        .then(response => {
-            setTeachers(response.data)
-        })
-        .catch(error => {
-            console.error("Error whlile fetching Teachers: " + error.message);
-        });
 
-        StandardService.getAllStandards()
-        .then(response => {
-            setStandards(response.data)
-        })
-        .catch(error => {
-            console.error("Error while fetching Standards: " + error.message);
-        });
+    const fetchTeachers = async () => {
+        try {
+            const teachersObj = await TeacherService.getAllTeachers();
+            setTeachers(teachersObj);
+        } catch(error) {
+            console.error("Error while fetching Teachers: " + error.message);
+        }
+    };
+
+    const fetchStandards = async () => {
+        try {
+            const response = await StandardService.getAllStandards();    
+            if(response && response.data) {
+                setStandards(response.data);
+            }
+        } catch(error) {
+            console.error("Error whlile fetching Standards: " + error.message);
+        }
+    };
+
+    useEffect(() => {
+        fetchTeachers();
+
+        fetchStandards();
 
     }, [])
 
     function handleOnSubmit(values) {
-        console.log(values)
         SubjectService.addNewSubject(values.name)
         .then(response => {
             if(values.teacher > 0) {

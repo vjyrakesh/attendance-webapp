@@ -4,16 +4,21 @@ import {Link} from 'react-router'
 
 export default function SubjectsComponent() {
 
-    const [subjects, setSubjects] = useState([])
+    const [subjects, setSubjects] = useState([]);
+
+    const fetchSubjects = async () => {
+        try {
+            const response = await SubjectService.getAllSubjects();
+            if(response && response.data)
+                setSubjects(response.data);
+        } catch(error) {
+            console.error("Error while fetching subjects: " + error.message);
+        }
+        
+    };
 
     useEffect(() => {
-        SubjectService.getAllSubjects()
-        .then(response => {
-            setSubjects(response.data)
-        })
-        .catch(error => {
-            console.error("Error whlile fetching Subjects: " + error.message);
-        });
+        fetchSubjects();
     },[])
 
     return (
