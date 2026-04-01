@@ -1,18 +1,18 @@
 import axios from 'axios'
+import { API_SERVER } from './constants'
 
 class StudentService {
     
     getAllStudents() {
-        return axios.get("http://localhost:8080/students")
+        return axios.get(`${API_SERVER}/students`)
     }
 
     getOneStudent(id) {
-        return axios.get(`http://localhost:8080/students/${id}`)
+        return axios.get(`${API_SERVER}/students/${id}`)
     }
 
     addStudentToStandard(id, stdName) {
-        console.log("updating student with id: " + id + " std: " + stdName)
-        return axios.put(`http://localhost:8080/students/${id}/standard`, {name:stdName})
+        return axios.put(`${API_SERVER}/students/${id}/standard`, {name:stdName})
     }
 }
 

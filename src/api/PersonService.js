@@ -1,8 +1,9 @@
-import axios from 'axios'
+import axios from 'axios';
+import { API_SERVER } from './constants';
 
 class PersonService {
     registerPerson(values) {
-        return axios.post("http://localhost:8080/register",values)
+        return axios.post(`${API_SERVER}/register`,values)
     }
 }
 
