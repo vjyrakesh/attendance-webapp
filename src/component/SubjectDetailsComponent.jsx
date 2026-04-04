@@ -7,21 +7,23 @@ export default function SubjectDetailsComponent() {
     const [subject, setSubject] = useState({id:0, name:'', teacher:{}, standard: {}});
     const params = useParams();
 
-    const fetchOneSubject = useEffect(async (id) => {
+    const fetchOneSubject = async (id) => {
         try {
             const response = await SubjectService.getOneSubject(id);
             if(response && response.data) {
+                console.log(response);
                 setSubject({
                     ...subject,
+                    'id': response.data.id,
                     'name': response.data.name,
-                    'teacher': response.data.teacher.id,
-                    'standard': response.data.standard.id
+                    'teacher': response.data.teacher,
+                    'standard': response.data.standard
                 });
             }
         } catch(error) {
             console.error("Error whlile fetching one Subject: " + error.message);
         }
-    }, []);
+    };
 
     useEffect(() => {
         fetchOneSubject(params.id);

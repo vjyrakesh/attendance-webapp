@@ -9,8 +9,12 @@ export default function TeachersComponent() {
 
     const fetchTeachers = useCallback(async () => {
         try {
-            const teachersObj = await TeacherService.getAllTeachers();
-            setTeachers(teachersObj);
+            const response = await TeacherService.getAllTeachers();
+            console.log(response)
+            if(response && response.data) {
+                setTeachers(response.data);
+            }
+            
         } catch(error) {
             console.error("Error while fetching Teachers: " + error.message);
         }
