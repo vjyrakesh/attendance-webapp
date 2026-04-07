@@ -1,42 +1,46 @@
 import StandardService from "../api/StandardService";
-import {Formik, Form, Field} from 'formik'
-import { useEffect, useState } from "react";
+import {Formik, Form, Field} from 'formik';
+import { useEffect, useState, useCallback } from "react";
 import TeacherService from "../api/TeacherService";
 import SubjectService from "../api/SubjectService";
 
 
 export default function AddSubjectComponent(props) {
-    const [teachers, setTeachers] = useState([])
-    const [standards, setStandards] = useState([])
-    const [subject, setSubject ] = useState({name:'', teacher:0, standard: 0})
+    const [teachers, setTeachers] = useState([]);
+    const [standards, setStandards] = useState([]);
+    // const [subject, setSubject ] = useState({name:'', teacher:0, standard: 0});
 
 
-    const fetchTeachers = async () => {
-        try {
-            const teachersObj = await TeacherService.getAllTeachers();
-            setTeachers(teachersObj);
-        } catch(error) {
-            console.error("Error while fetching Teachers: " + error.message);
-        }
-    };
+    
 
-    const fetchStandards = async () => {
-        try {
-            const response = await StandardService.getAllStandards();    
-            if(response && response.data) {
-                setStandards(response.data);
-            }
-        } catch(error) {
-            console.error("Error whlile fetching Standards: " + error.message);
-        }
-    };
+    
 
     useEffect(() => {
+
+        const fetchTeachers = async () => {
+            try {
+                const teachersObj = await TeacherService.getAllTeachers();
+                setTeachers(teachersObj);
+            } catch(error) {
+                console.error("Error while fetching Teachers: " + error.message);
+            }
+        };
+        
+        const fetchStandards = async () => {
+            try {
+                const response = await StandardService.getAllStandards();    
+                if(response && response.data) {
+                    setStandards(response.data);
+                }
+            } catch(error) {
+                console.error("Error whlile fetching Standards: " + error.message);
+            }
+        };
         fetchTeachers();
 
         fetchStandards();
 
-    }, [])
+    });
 
     function handleOnSubmit(values) {
         SubjectService.addNewSubject(values.name)
@@ -44,16 +48,16 @@ export default function AddSubjectComponent(props) {
             if(values.teacher > 0) {
                 TeacherService.addSubjectToTeacher(values.teacher, values.name)
                 .then(response => {
-                    console.log('teacher added to subject')
-                })
+                    console.log('teacher added to subject');
+                });
             }
             if(values.standard > 0) {
                 SubjectService.addSubjectToStandard(response.data.id, values.standard)
                 .then(response => {
-                    console.log('subject added to standard')
-                })
+                    console.log('subject added to standard');
+                });
             }
-        })
+        });
     }
 
     return (
@@ -99,5 +103,5 @@ export default function AddSubjectComponent(props) {
                 </Form>
             </Formik>
         </div>
-    )
+    );
 }
