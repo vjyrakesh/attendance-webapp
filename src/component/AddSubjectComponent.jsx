@@ -3,40 +3,13 @@ import {Formik, Form, Field} from 'formik'
 import { useEffect, useState } from "react";
 import TeacherService from "../api/TeacherService";
 import SubjectService from "../api/SubjectService";
+import { useGetTeachersQuery, useGetStandardsQuery } from "../hooks/queries";
 
 
 export default function AddSubjectComponent(props) {
-    const [teachers, setTeachers] = useState([])
-    const [standards, setStandards] = useState([])
-    const [subject, setSubject ] = useState({name:'', teacher:0, standard: 0})
-
-
-    const fetchTeachers = async () => {
-        try {
-            const teachersObj = await TeacherService.getAllTeachers();
-            setTeachers(teachersObj);
-        } catch(error) {
-            console.error("Error while fetching Teachers: " + error.message);
-        }
-    };
-
-    const fetchStandards = async () => {
-        try {
-            const response = await StandardService.getAllStandards();    
-            if(response && response.data) {
-                setStandards(response.data);
-            }
-        } catch(error) {
-            console.error("Error whlile fetching Standards: " + error.message);
-        }
-    };
-
-    useEffect(() => {
-        fetchTeachers();
-
-        fetchStandards();
-
-    }, [])
+    const [subject, setSubject ] = useState({name:'', teacher:0, standard: 0});
+    const getTeachersQuery = useGetTeachersQuery();
+    const getStandardsQuery = useGetStandardsQuery();
 
     function handleOnSubmit(values) {
         SubjectService.addNewSubject(values.name)
@@ -55,6 +28,18 @@ export default function AddSubjectComponent(props) {
             }
         })
     }
+
+    if(getTeachersQuery.isLoading || getStandardsQuery.isLoading) {
+        return (
+            <div class="text-center">
+                <div class="spinner-border m-5" role="status">
+                    <span class="sr-only"></span>
+                </div>
+            </div>
+        );
+    }
+    const teachers = getTeachersQuery.data;
+    const standards = getStandardsQuery.data;
 
     return (
         <div className="container">

@@ -1,44 +1,24 @@
-import StandardService from "../api/StandardService"
-import { useState, useEffect, useCallback } from "react"
 import { useParams } from "react-router"
+import { useGetOneStandardQuery, useGetStudentsOfStandardQuery } from "../hooks/queries"
 
 export default function StandardDetailsComponent(props) {
     
-    const [standard, setStandard] = useState({id:0,name:'',classTeacher:{},strength:0})
-    const [students, setStudents] = useState([])
     const params = useParams()
 
-    const fetchOneStandard = useCallback(async (id) => {
-        try {
-            const response = await StandardService.getOneStandard(id);
-            if(response && response.data) {
-                setStandard({
-                ...standard,
-                ...response.data
-                });
-            }
-        } catch(error) {
-            console.error("Error whlile fetching one Standard: " + error.message);
-        }
-    }, []);
+    const getOneStandardQuery = useGetOneStandardQuery(params.id);
+    const getStudentsOfStandardQuery = useGetStudentsOfStandardQuery(params.id);
 
-    const fetchStudentsOfStandard = useCallback(async (id) => {
-        try {
-            const response = await StandardService.getStudentsOfStandard(id);
-            if(response && response.data) {
-                setStudents(response.data);
-            }
-        } catch(error) {
-            console.error("Error whlile fetching Students: " + error.message);
-        }
-    }, []);
-    
-    useEffect(() => {
-        fetchOneStandard(params.id);
+    if(getOneStandardQuery.isLoading || getStudentsOfStandardQuery.isLoading) {
+        return (
+            <div class="text-center">
+                <div class="spinner-border m-5" role="status">
+                    <span class="sr-only"></span>
+                </div>
+            </div>
+        );
+    }
 
-        fetchStudentsOfStandard(params.id);
-    }, [params.id])
-    
+    const standard = getOneStandardQuery.data;
     return (
         <div className="container">
             <h3>Standard Details</h3>
@@ -56,7 +36,7 @@ export default function StandardDetailsComponent(props) {
                 </thead>
                 <tbody>
                     {
-                        students.map(student => 
+                        getStudentsOfStandardQuery.data.map(student => 
                             <tr key={student.id}>
                                 <td>{student.id}</td>
                                 <td>{student.firstName}</td>

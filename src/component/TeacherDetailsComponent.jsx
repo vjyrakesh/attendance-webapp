@@ -1,40 +1,25 @@
-import TeacherService from "../api/TeacherService";
 import { useParams } from "react-router";
-import { useState, useEffect } from "react";
+import { useGetOneTeacherQuery, useGetSubjectsOfTeacherQuery } from "../hooks/queries";
 
 export default function TeacherDetailsComponent() {
     
-    const [teacher, setTeacher] = useState({id:0, username:'', firstName:'', lastName:'', classTeacherFor:''})
-    const [subjects, setSubjects] = useState([])
     const params = useParams()
 
-    const fetchOneTeacher = async (id) => {
-        try {
-            const response = await TeacherService.getOneTeacher(id);
-            if(response && response.data) {
-                setTeacher(response.data);
-            }
-        } catch(error) {
-            console.error("Error while fetching teacher: " + error.message);
-        }
-    };
+    const getOneTeacherQuery = useGetOneTeacherQuery(params.id);
+    const getSubjectsOfTeacherQuery = useGetSubjectsOfTeacherQuery(params.id);
 
-    const fetchSubjectsOfTeacher = async (id) => {
-        try {
-            const response = await TeacherService.getSubjectsOfTeacher(id);
-            if(response && response.data) {
-                setSubjects(response.data);
-            }
-        } catch(error) {
-            console.error("Error while fetching subjects of teacher: " + error.message);
-        }
-    };
+    if(getOneTeacherQuery.isLoading || getSubjectsOfTeacherQuery.isLoading) {
+        return (
+            <div class="text-center">
+                <div class="spinner-border m-5" role="status">
+                    <span class="sr-only"></span>
+                </div>
+            </div>
+        );
+    }
 
-    useEffect(() => {
-        fetchOneTeacher(params.id);
-
-        fetchSubjectsOfTeacher(params.id);
-    }, [params.id])
+    
+    const teacher = getOneTeacherQuery.data;
     
     return (
         <div className="container">
@@ -55,7 +40,7 @@ export default function TeacherDetailsComponent() {
                     </thead>
                     <tbody>
                         {
-                            subjects.map(subject => 
+                            getSubjectsOfTeacherQuery.data.map(subject => 
                                 <tr key={subject.id}>
                                     <td>{subject.name}</td>
                                     <td>{subject.standard.name}</td>

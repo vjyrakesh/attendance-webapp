@@ -1,25 +1,19 @@
-import SubjectService from "../api/SubjectService";
-import { useState, useEffect } from "react";
-import {Link} from 'react-router'
+import {Link} from 'react-router';
+import { useGetSubjectsQuery } from "../hooks/queries";
 
 export default function SubjectsComponent() {
+    
+    const getSubjectsQuery = useGetSubjectsQuery();
 
-    const [subjects, setSubjects] = useState([]);
-
-    const fetchSubjects = async () => {
-        try {
-            const response = await SubjectService.getAllSubjects();
-            if(response && response.data)
-                setSubjects(response.data);
-        } catch(error) {
-            console.error("Error while fetching subjects: " + error.message);
-        }
-        
-    };
-
-    useEffect(() => {
-        fetchSubjects();
-    },[])
+    if(getSubjectsQuery.isLoading) {
+        return (
+            <div class="text-center">
+                <div class="spinner-border m-5" role="status">
+                    <span class="sr-only"></span>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="container">
@@ -35,7 +29,7 @@ export default function SubjectsComponent() {
                 </thead>
                 <tbody>
                     {
-                        subjects.map(subject =>
+                        getSubjectsQuery.data.map(subject =>
                             <tr key={subject.id}>
                                 <td>{subject.id}</td>
                                 <td>{subject.name}</td>

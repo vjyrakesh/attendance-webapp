@@ -1,29 +1,22 @@
-import TeacherService from "../api/TeacherService"
-import { useState, useEffect, useCallback } from "react"
-import { Link } from "react-router"
-
+import { Link } from "react-router";
+import { useGetTeachersQuery } from "../hooks/queries";
 
 export default function TeachersComponent() {
+    const getTeachersQuery = useGetTeachersQuery();
+    if(getTeachersQuery.isLoading) {
+        return (
+            <div class="text-center">
+                <div class="spinner-border m-5" role="status">
+                    <span class="sr-only"></span>
+                </div>
+            </div>
+        );
+    }
 
-    const [teachers, setTeachers] = useState([]);
-
-    const fetchTeachers = useCallback(async () => {
-        try {
-            const response = await TeacherService.getAllTeachers();
-            console.log(response)
-            if(response && response.data) {
-                setTeachers(response.data);
-            }
-            
-        } catch(error) {
-            console.error("Error while fetching Teachers: " + error.message);
-        }
-    },[]);
-
-    useEffect(() => {
-        fetchTeachers();
-    },[]);
-
+    if(getTeachersQuery.error) {
+        return <div><h3>Unable to fetch data</h3></div>;
+    }
+    
     return (
         <div className="container">
             <h3>Teachers</h3>
@@ -39,7 +32,7 @@ export default function TeachersComponent() {
                 </thead>
                 <tbody>
                     {
-                        teachers.map(teacher => 
+                        getTeachersQuery.data.map(teacher => 
                             <tr key={teacher.id}>
                                 <td>{teacher.id}</td>
                                 {teacher.firstName?<td>{teacher.firstName}</td>:<td>NA</td>}

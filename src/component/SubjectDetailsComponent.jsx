@@ -1,33 +1,23 @@
-import { useState, useEffect } from "react"
 import { useParams, Link } from "react-router"
-import SubjectService from "../api/SubjectService"
+import { useGetOneSubjectQuery } from "../hooks/queries";
 
 export default function SubjectDetailsComponent() {
 
-    const [subject, setSubject] = useState({id:0, name:'', teacher:{}, standard: {}});
     const params = useParams();
 
-    const fetchOneSubject = async (id) => {
-        try {
-            const response = await SubjectService.getOneSubject(id);
-            if(response && response.data) {
-                console.log(response);
-                setSubject({
-                    ...subject,
-                    'id': response.data.id,
-                    'name': response.data.name,
-                    'teacher': response.data.teacher,
-                    'standard': response.data.standard
-                });
-            }
-        } catch(error) {
-            console.error("Error whlile fetching one Subject: " + error.message);
-        }
-    };
+    const getOneSubjectQuery = useGetOneSubjectQuery(params.id);
 
-    useEffect(() => {
-        fetchOneSubject(params.id);
-    }, [params.id]);
+    if(getOneSubjectQuery.isLoading) {
+        return (
+            <div class="text-center">
+                <div class="spinner-border m-5" role="status">
+                    <span class="sr-only"></span>
+                </div>
+            </div>
+        );
+    }
+
+    const subject = getOneSubjectQuery.data;
 
     return (
         <div className="container">
