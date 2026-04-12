@@ -1,24 +1,19 @@
-import { useEffect } from "react";
-import { useState } from "react";
-import StandardService from "../api/StandardService";
-import {Link} from 'react-router'
+import {Link} from 'react-router';
+import { useGetStandardsQuery } from "../hooks/queries";
 
 export default function StandardsComponent() {
-    const [standards, setStandards] = useState([])
+    
+    const getStandardsQuery = useGetStandardsQuery();
 
-    const fetchStandards = async () => {
-        try {
-            const response = await StandardService.getAllStandards();    
-            if(response && response.data) {
-                setStandards(response.data);
-            }
-        } catch(error) {
-            console.error("Error whlile fetching Standards: " + error.message);
-        }
-    };
-    useEffect(()=> {
-        fetchStandards();
-    },[])
+    if(getStandardsQuery.isLoading) {
+        return (
+            <div class="text-center">
+                <div class="spinner-border m-5" role="status">
+                    <span class="sr-only"></span>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="container">
@@ -34,7 +29,7 @@ export default function StandardsComponent() {
                 </thead>
                 <tbody>
                     {
-                        standards.map(standard => 
+                        getStandardsQuery.data.map(standard => 
                             <tr key={standard.id}>
                                 <td>{standard.id}</td>
                                 <td>{standard.name}</td>

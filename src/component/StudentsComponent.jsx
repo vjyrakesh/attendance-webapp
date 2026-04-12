@@ -1,25 +1,19 @@
-import { useState, useEffect } from "react";
-import StudentService from "../api/StudentService";
-import {Link} from 'react-router'
+import {Link} from 'react-router';
+import { useGetStudentsQuery } from "../hooks/queries";
 
 export default function StudentsComponent() {
 
-    const [students, setStudents] = useState([]);
+    const getStudentsQuery = useGetStudentsQuery();
 
-    const fetchStudents = async () => {
-        try {
-            const response = await StudentService.getAllStudents();
-            if(response && response.data) {
-                setStudents(response.data);
-            }
-        } catch(error) {
-            console.error("Error while fetching students: " + error.message);
-        }
-    };
-
-    useEffect(() => {
-        fetchStudents();
-    }, [])
+    if(getStudentsQuery.isLoading) {
+        return (
+            <div class="text-center">
+                <div class="spinner-border m-5" role="status">
+                    <span class="sr-only"></span>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="container">
@@ -36,7 +30,7 @@ export default function StudentsComponent() {
                 </thead>
                 <tbody>
                     {
-                        students.map(student => 
+                        getStudentsQuery.data.map(student => 
                             <tr key={student.id}>
                                 <td>{student.id}</td>
                                 <td>{student.firstName}</td>
